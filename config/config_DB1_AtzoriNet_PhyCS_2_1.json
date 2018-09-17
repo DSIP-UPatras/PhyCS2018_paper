@@ -1,0 +1,55 @@
+{
+	"dataset": {
+		"name": "DB1",
+		"train_generator": {
+			"repetitions": [3, 8],
+			"batch_size": 1024,
+			"sample_weight": true,
+			"dim": [15,10,1],
+			"window_size": 15,
+			"window_step": 5,
+			"noise_snr_db": [25,26],
+			"size_factor": 2,
+			"shuffle": true
+		},
+		"valid_generator": {
+			"repetitions": [2, 5, 7],
+			"batch_size": 1,
+			"sample_weight": false,
+			"dim": [15,10,1],
+			"window_size": 15,
+			"window_step": 15,
+			"shuffle": false,
+			"update_after_epoch": false
+		}
+	},
+
+	"model": {
+		"name": "AtzoriNet",
+		"save": true,
+		"save_file": "DB1_AtzoriNet_PhyCS_2_1",
+		"extra": {
+			"n_dropout": 0.15,
+			"n_pool": "max",
+			"n_l2": 0.0002,
+			"batch_norm": false
+		}
+	},
+
+	"training": {
+		"optimizer": "sgd",
+		"epochs": 100,
+		"l_rate": 0.05,
+		"l_rate_schedule": {
+			"lr_start": 0.05,
+			"schedule_type": "step",
+			"decay": 0.5,
+			"step": 15
+		}
+	},
+
+	"logging": {
+		"enable": true,
+		"log_file": "DB1_AtzoriNet_PhyCS_2_1"
+	}
+}
