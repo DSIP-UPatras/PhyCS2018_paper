@@ -12,7 +12,7 @@ The following python packages are needed to run the code:
 - numpy 1.14.3
 
 ## License
-If this code helps your research, please cite the paper.
+If this code helps your research, please cite the [paper](https://www.scitepress.org/PublicationsDetail.aspx?ID=dtzW+kFbwjI=&t=1).
 
 ```
 @inproceedings{PTsinganos_PhyCS2018,
