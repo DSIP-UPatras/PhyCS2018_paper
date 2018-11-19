@@ -12,7 +12,7 @@ The following python packages are needed to run the code:
 - numpy 1.14.3
 
 ## License
-If this code helps your research, please cite the paper.
+If this code helps your research, please cite the [paper](https://www.scitepress.org/PublicationsDetail.aspx?ID=dtzW+kFbwjI=&t=1).
 
 ```
 @inproceedings{PTsinganos_PhyCS2018,
@@ -20,9 +20,10 @@ If this code helps your research, please cite the paper.
  title = {Deep Learning in EMG-based Gesture Recognition},
  booktitle = {Proceedings of the 5h International Conference on Physiological Computing Systems},
  year = {2018},
+ doi = {10.5220/0006960201070114},
  isbn = {978-989-758-329-2},
  pages = {107--114},
- publisher = {SCITEPRESS},
+ publisher = {SciTePress},
  location = {Seville, SP},
  keywords = {sEMG, Gesture Recognition, Deep Learning, CNN}
 } 
