@@ -122,7 +122,7 @@ class DataGenerator(keras.utils.Sequence):
 
             if self.min_max_norm is True:
                 max_x = x_aug.max()
-                min_x = x_augd.min()
+                min_x = x_aug.min()
                 x_aug = (x_aug - min_x) / (max_x - min_x)
 
             if np.prod(x_aug.shape) == np.prod(self.dim):
