@@ -142,6 +142,10 @@ PARAMS_TEST_GENERATOR.pop('input_directory', '')
 
 MODEL = AtzoriNet
 
+PARAMS_TRAIN_GENERATOR["label_proc"] = smooth_labels_with_dist
+#PARAMS_TRAIN_GENERATOR["label_proc_extra"] = {"smooth_factor": 0.1}
+PARAMS_TRAIN_GENERATOR["label_proc_extra"] = {"smooth_factor": 0.3, "smooth_dist": group_dist}
+
 mean_train, mean_test, mean_test_vote, mean_test_3, mean_test_5 = [], [], [], [], []
 mean_cm, mean_cm_vote = [], []
 mean_train_loss, mean_test_loss = [], []
@@ -150,6 +154,8 @@ if LOGGING_ENABLE:
     with open(LOGGING_FILE, 'w') as f:
         f.write(
             'TIMESTAMP: {}\n'
+            'KERAS: {}\n'
+            'TENSORFLOW: {}\n'
             'DATASET: {}\n'
             'TRAIN_GENERATOR: {}\n'
             'VALID_GENERATOR: {}\n'
@@ -157,7 +163,7 @@ if LOGGING_ENABLE:
             'MODEL: {}\n'
             'MODEL_PARAMS: {}\n'
             'TRAIN_PARAMS: {}\n'.format(
-                TIMESTAMP, PARAMS_DATASET['name'], PARAMS_TRAIN_GENERATOR,
+                TIMESTAMP, keras.__version__, tf.__version__, PARAMS_DATASET['name'], PARAMS_TRAIN_GENERATOR,
                 PARAMS_VALID_GENERATOR, PARAMS_TEST_GENERATOR,
                 PARAMS_MODEL['name'], PARAMS_MODEL['extra'],
                 PARAMS_TRAINING)
@@ -168,6 +174,7 @@ if LOGGING_ENABLE:
 for subject in SUBJECTS:
     print('Subject: {}'.format(subject))
     input_dir = '{}/subject-{:02d}'.format(input_directory, subject)
+
 
     if INTER_SUBJECT:
         train_generator = DataGenerator(

@@ -1,0 +1,56 @@
+{
+	"dataset": {
+		"name": "DB1",
+		"train_generator": {
+			"repetitions": [1, 3, 4, 6, 8, 9, 10],
+			"batch_size": 256,
+			"sample_weight": true,
+			"dim": [15,10,1],
+			"window_size": 15,
+			"window_step": 5,
+			"noise_snr_db": 25,
+			"size_factor": 2,
+			"shuffle": true,
+			"update_after_epoch": false
+		},
+		"valid_generator": {
+			"repetitions": [2, 5, 7],
+			"batch_size": 1,
+			"sample_weight": false,
+			"dim": [15,10,1],
+			"window_size": 15,
+			"window_step": 15,
+			"shuffle": false,
+			"update_after_epoch": false
+		}
+	},
+
+	"model": {
+		"name": "AtzoriNet",
+		"save": true,
+		"save_file": "DB1_AtzoriNet_PhyCS_1_AbSOptimizer",
+		"extra": {
+			"n_dropout": 0.15,
+			"n_pool": "max",
+			"n_l2": 0.0002,
+			"batch_norm": false
+		}
+	},
+
+	"training": {
+		"optimizer": "sgd",
+		"epochs": 30,
+		"l_rate": 0.001,
+		"l_rate_schedule": {
+			"lr_start": 0.001,
+			"schedule_type": "constant"
+		}
+	},
+
+	"logging": {
+		"enable": true,
+		"log_file": "DB1_AtzoriNet_PhyCS_1_AbSOptimizer"
+	},
+
+	"subjects": [11,12,13,14,15,16,17,18,19,20]
+}

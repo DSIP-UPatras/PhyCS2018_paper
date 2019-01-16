@@ -149,6 +149,41 @@ class MyLRScheduler(Callback):
         return float(rate)
 
 
+def smooth_labels(labels, smooth_factor):
+    """
+    Transforms an array of one-hot vectors to smooth
+        labels: array with shape (examples, classes)
+        smooth_factor:  float between 0-1, smooth factor
+    """
+    labels = np.array(labels)
+    assert(len(labels.shape) == 2), 'Wrong labels shape: ' + str(labels.shape)
+    if 0.0 < smooth_factor < 1.0:
+        labels *= (1.0-smooth_factor)
+        labels += smooth_factor/labels.shape[1]
+    else:
+        raise Exception('Invalid label smoothing factor: ' + str(smooth_factor))
+    return labels
+
+
+def smooth_labels_with_dist(labels, smooth_dist):
+    """
+    Transforms an array of one-hot vectors to smooth
+        labels: array with one-hot labels, shape (examples, classes)
+        smooth_dist:  square matrix
+    """
+    labels = np.array(labels)*1.0
+    smooth_dist = np.array(smooth_dist)*1.0
+    assert(len(labels.shape) == 2), 'Wrong labels shape: ' + str(labels.shape)
+    assert(labels.shape[1] == smooth_dist.shape[0])
+    for i in range(smooth_dist.shape[0]):
+        assert(np.sum(smooth_dist[i]) == 1.0), "Smooth distribution must sum to 1.0"
+    for i in range(labels.shape[0]):
+        m = np.argmax(labels[i])
+        labels[i] = smooth_dist[m]
+    return labels
+
+
+
 DEFAULT_GENERATOR_PARAMS = {
     "repetitions": [],
     "input_directory": '',
@@ -164,7 +199,9 @@ DEFAULT_GENERATOR_PARAMS = {
     "preprocess_function_1": None,
     "size_factor": 0,
     "min_max_norm": True,
-    "update_after_epoch": True
+    "update_after_epoch": True,
+    "label_proc": None,
+    "label_proc_extra": None
 }
 
 

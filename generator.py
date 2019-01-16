@@ -12,7 +12,8 @@ class DataGenerator(keras.utils.Sequence):
                  noise_snr_db=0, window_size=15, window_step=1,
                  data_type='rms',
                  preprocess_function_1=None,preprocess_function_1_extra=None,
-                 size_factor=1, min_max_norm=True, update_after_epoch=True):
+                 size_factor=1, min_max_norm=True, update_after_epoch=True,
+                 label_proc=None, label_proc_extra=None):
         ''' Initialization
                 repetitions -- list, repetition ids to load data from
                 input_directory -- str, subject directory to load data from
@@ -53,6 +54,8 @@ class DataGenerator(keras.utils.Sequence):
         self.size_factor = size_factor
         self.min_max_norm = min_max_norm
         self.update_after_epoch = update_after_epoch
+        self.label_proc = label_proc
+        self.label_proc_extra = label_proc_extra
         self.__load_dataset()
         self.__generate()
         if self.shuffle is True:
@@ -122,7 +125,7 @@ class DataGenerator(keras.utils.Sequence):
 
             if self.min_max_norm is True:
                 max_x = x_aug.max()
-                min_x = x_augd.min()
+                min_x = x_aug.min()
                 x_aug = (x_aug - min_x) / (max_x - min_x)
 
             if np.prod(x_aug.shape) == np.prod(self.dim):
@@ -138,7 +141,10 @@ class DataGenerator(keras.utils.Sequence):
             if self.sample_weight:
                 w[k] = self.class_weights[(y[k])]
 
-        output = (X, keras.utils.to_categorical(y, num_classes=self.n_classes))
+        y = keras.utils.to_categorical(y, num_classes=self.n_classes)
+        if self.label_proc is not None:
+            y = self.label_proc(y, **self.label_proc_extra)
+        output = (X, y)
         if self.sample_weight:
             output += (w,)
 
@@ -153,9 +159,9 @@ class DataGenerator(keras.utils.Sequence):
                 if self.noise_snr_db != 0:
                     x = da.jitter(x, snr_db=self.noise_snr_db)
 
-                self.X_aug.append(x)
-                self.y_aug.append(self.y[i])
-                self.r_aug.append(self.r[i])
+                    self.X_aug.append(x)
+                    self.y_aug.append(self.y[i])
+                    self.r_aug.append(self.r[i])
             self.X_aug.append(self.X[i])
             self.y_aug.append(self.y[i])
             self.r_aug.append(self.r[i])
