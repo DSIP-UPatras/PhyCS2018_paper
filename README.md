@@ -5,7 +5,7 @@ P. Tsinganos et al., “Deep Learning in EMG-based Gesture Recognition” in Pro
 
 ## Dependencies
 The following python packages are needed to run the code:
-- keras 2.16
+- keras 2.1.6
 - tensorflow 1.5.0
 - sklearn 0.19.1
 - scipy 1.1.0
